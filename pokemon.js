@@ -1,7 +1,25 @@
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 
 const html = `
+<style>
+h1 {
+	font-weight: bold;
+	color: #ff7800;
+}
+.parent{
+    text-align:center;
+    margin:0 auto;
+   }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+<div class="parent">
+<h1 class="is-size-4">
+ポケモンのわざの相性
+</h1>
 <form method="POST" action="/">
+<p class="is-size-4 has-text-danger">
+技のタイプ
+</p>
   <select name="move_type">
 <option value=normal>ノーマル</option>
 <option value=fire>ほのお</option>
@@ -22,7 +40,10 @@ const html = `
 <option value="steel">はがね</option>
 <option value="fairy">フェアリー</option>
 </select>
-
+</br>
+<p class="is-size-4 has-text-success">
+相手のポケモンのタイプ
+</p>
 <select name="pokemon_type1">
 <option value=normal>ノーマル</option>
 <option value=fire>ほのお</option>
@@ -65,8 +86,10 @@ const html = `
 <option value="steel">はがね</option>
 <option value="fairy">フェアリー</option>
 </select>
-  <button type="submit">Submit</button>
+</br>
+  <button class=button is-primary type="submit">Submit</button>
 </form>
+</div>
 `;
 
 //使用する技のタイプと防御側のポケモンのタイプの相性
@@ -127,27 +150,32 @@ const compatibility  = {
             }
 };
 
-
+var msg = {normal:"通常の効果",nothing:"効果がない",good:"効果はばつぐん",bad:"効果はいまひとつ"};
+var style = {normal:"\"font-size:24px;color: #007800;\"",
+            nothing:"\"font-size:24px;color: #000000;\"",
+            good:"\"font-size:24px;color: #ff2400;\"",
+            bad:"\"font-size:24px;color: #0078ff;\""
+};
 
 function damageMagnification(move_type,pokemon_type1,pokemon_type2) {
     var magnification = compatibility[move_type][pokemon_type1];
-    if (pokemon_type2 != "none") {
+    if (pokemon_type2 != "none" && pokemon_type1 != pokemon_type2) {
         magnification *= compatibility[move_type][pokemon_type2];
     }
-    var msg;
+    var _msg;
     if (magnification == 1) {
-        msg = "通常の効果";
+        _msg = "normal";
     }
     else if (magnification == 0) {
-        msg = "効果がない";
+        _msg = "nothing";
     }
     else if (magnification > 1) {
-        msg = "効果はばつぐん";
+        _msg = "good";
     }
     else if (magnification < 1 && magnification > 0) {
-        msg = "効果はいまひとつ";
+        _msg = "bad";
     }
-    return [magnification,msg];
+    return [magnification,_msg];
 }
 
 function assertDamage(input,expected) {
@@ -159,20 +187,23 @@ function assertDamage(input,expected) {
 }
 
 function unitTest() {
-    assertDamage(["fire","grass","none"],[2,"効果はばつぐん"]);
-    assertDamage(["fire","grass","ice"],[4,"効果はばつぐん"]);
-    assertDamage(["normal","ghost","none"],[0,"効果がない"]);
-    assertDamage(["normal","ghost","fire"],[0,"効果がない"]);
-    assertDamage(["normal","normal","flying"],[1,"通常の効果"]);
-    assertDamage(["electric","water","flying"],[4,"効果はばつぐん"]);
-    assertDamage(["ice","grass","ice"],[1,"通常の効果"]);
-    assertDamage(["fighting","ghost","dark"],[0,"効果がない"]);
-    assertDamage(["fire","water","none"],[0.5,"効果はいまひとつ"]);
-    assertDamage(["fire","water","electric"],[0.5,"効果はいまひとつ"]);
-    assertDamage(["fire","fire","rock"],[0.25,"効果はいまひとつ"]);
-    assertDamage(["dragon","dragon","none"],[2,"効果はばつぐん"]);
-    assertDamage(["ghost","ghost","none"],[2,"効果はばつぐん"]);
-    assertDamage(["ghost","ghost","dark"],[1,"通常の効果"]);
+    assertDamage(["fire","grass","none"],[2,"good"]);
+    assertDamage(["fire","grass","ice"],[4,"good"]);
+    assertDamage(["normal","ghost","none"],[0,"nothing"]);
+    assertDamage(["normal","ghost","fire"],[0,"nothing"]);
+    assertDamage(["normal","normal","flying"],[1,"normal"]);
+    assertDamage(["electric","water","flying"],[4,"good"]);
+    assertDamage(["ice","grass","ice"],[1,"normal"]);
+    assertDamage(["fighting","ghost","dark"],[0,"nothing"]);
+    assertDamage(["fire","water","none"],[0.5,"bad"]);
+    assertDamage(["fire","water","electric"],[0.5,"bad"]);
+    assertDamage(["fire","fire","rock"],[0.25,"bad"]);
+    assertDamage(["dragon","dragon","none"],[2,"good"]);
+    assertDamage(["ghost","ghost","none"],[2,"good"]);
+    assertDamage(["ghost","ghost","dark"],[1,"normal"]);
+
+    assertDamage(["fire","grass","grass"],[2,"good"]);
+    assertDamage(["fire","water","water"],[0.5,"bad"]);
 }
 
 unitTest();
@@ -192,9 +223,9 @@ async function handler(req) {
             const pokemon_type1 = body.get("pokemon_type1");
             const pokemon_type2 = body.get("pokemon_type2");
 
-            var ans = damageMagnification(move_type,pokemon_type1,pokemon_type2) 
-
-            return new Response(html+`Damage ${ans}!`, {
+            var damage = damageMagnification(move_type,pokemon_type1,pokemon_type2) 
+            var result = `<div class="parent"><p style=${style[damage[1]]}>ダメージ${damage[0]}倍</p><p style=${style[damage[1]]}>${msg[damage[1]]}</p></div>`;
+            return new Response(html+result, {
                 headers: { "content-type": "text/html; charset=utf-8" },
             });
         }
