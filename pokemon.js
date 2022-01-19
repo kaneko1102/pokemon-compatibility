@@ -13,82 +13,89 @@ h1 {
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 <div class="parent">
-<h1 class="is-size-4">
-ポケモンのわざの相性
-</h1>
-<form method="POST" action="/">
-<p class="is-size-4 has-text-danger">
-技のタイプ
-</p>
-  <select name="move_type">
-<option value=normal>ノーマル</option>
-<option value=fire>ほのお</option>
-<option value="water">みず</option>
-<option value="electric">でんき</option>
-<option value="grass">くさ</option>
-<option value="ice">こおり</option>
-<option value="fighting">かくとう</option>
-<option value="poison">どく</option>
-<option value="ground">じめん</option>
-<option value="flying">ひこう</option>
-<option value="psychic">エスパー</option>
-<option value="bug">むし</option>
-<option value="rock">いわ</option>
-<option value="ghost">ゴースト</option>
-<option value="dragon">ドラゴン</option>
-<option value="dark">あく</option>
-<option value="steel">はがね</option>
-<option value="fairy">フェアリー</option>
-</select>
-</br>
-<p class="is-size-4 has-text-success">
-相手のポケモンのタイプ
-</p>
-<select name="pokemon_type1">
-<option value=normal>ノーマル</option>
-<option value=fire>ほのお</option>
-<option value="water">みず</option>
-<option value="electric">でんき</option>
-<option value="grass">くさ</option>
-<option value="ice">こおり</option>
-<option value="fighting">かくとう</option>
-<option value="poison">どく</option>
-<option value="ground">じめん</option>
-<option value="flying">ひこう</option>
-<option value="psychic">エスパー</option>
-<option value="bug">むし</option>
-<option value="rock">いわ</option>
-<option value="ghost">ゴースト</option>
-<option value="dragon">ドラゴン</option>
-<option value="dark">あく</option>
-<option value="steel">はがね</option>
-<option value="fairy">フェアリー</option>
-</select>
+    <section class="hero is-warning">
+        <div class="hero-body">
+            <div class="container">
+                <div class="notification is-primary">
+                    <h1 class="title is-size-1">ポケモンの技の相性</h1>
+                </div>
+            </div>
+        </div>
 
-<select name="pokemon_type2">
-<option value="none">---</option>
-<option value="normal">ノーマル</option>
-<option value="fire">ほのお</option>
-<option value="water">みず</option>
-<option value="electric">でんき</option>
-<option value="grass">くさ</option>
-<option value="ice">こおり</option>
-<option value="fighting">かくとう</option>
-<option value="poison">どく</option>
-<option value="ground">じめん</option>
-<option value="flying">ひこう</option>
-<option value="psychic">エスパー</option>
-<option value="bug">むし</option>
-<option value="rock">いわ</option>
-<option value="ghost">ゴースト</option>
-<option value="dragon">ドラゴン</option>
-<option value="dark">あく</option>
-<option value="steel">はがね</option>
-<option value="fairy">フェアリー</option>
-</select>
-</br>
-  <button class=button is-primary type="submit">Submit</button>
-</form>
+        <form method="POST" action="/">
+            <p class="is-size-4 has-text-danger">
+                技のタイプ
+            </p>
+            <select name="move_type">
+                <option value=normal>ノーマル</option>
+                <option value=fire>ほのお</option>
+                <option value="water">みず</option>
+                <option value="electric">でんき</option>
+                <option value="grass">くさ</option>
+                <option value="ice">こおり</option>
+                <option value="fighting">かくとう</option>
+                <option value="poison">どく</option>
+                <option value="ground">じめん</option>
+                <option value="flying">ひこう</option>
+                <option value="psychic">エスパー</option>
+                <option value="bug">むし</option>
+                <option value="rock">いわ</option>
+                <option value="ghost">ゴースト</option>
+                <option value="dragon">ドラゴン</option>
+                <option value="dark">あく</option>
+                <option value="steel">はがね</option>
+                <option value="fairy">フェアリー</option>
+            </select>
+            </br>
+            <p class="is-size-4 has-text-success">
+                相手のポケモンのタイプ
+            </p>
+            <select name="pokemon_type1">
+                <option value=normal>ノーマル</option>
+                <option value=fire>ほのお</option>
+                <option value="water">みず</option>
+                <option value="electric">でんき</option>
+                <option value="grass">くさ</option>
+                <option value="ice">こおり</option>
+                <option value="fighting">かくとう</option>
+                <option value="poison">どく</option>
+                <option value="ground">じめん</option>
+                <option value="flying">ひこう</option>
+                <option value="psychic">エスパー</option>
+                <option value="bug">むし</option>
+                <option value="rock">いわ</option>
+                <option value="ghost">ゴースト</option>
+                <option value="dragon">ドラゴン</option>
+                <option value="dark">あく</option>
+                <option value="steel">はがね</option>
+                <option value="fairy">フェアリー</option>
+            </select>
+
+            <select name="pokemon_type2">
+                <option value="none">---</option>
+                <option value="normal">ノーマル</option>
+                <option value="fire">ほのお</option>
+                <option value="water">みず</option>
+                <option value="electric">でんき</option>
+                <option value="grass">くさ</option>
+                <option value="ice">こおり</option>
+                <option value="fighting">かくとう</option>
+                <option value="poison">どく</option>
+                <option value="ground">じめん</option>
+                <option value="flying">ひこう</option>
+                <option value="psychic">エスパー</option>
+                <option value="bug">むし</option>
+                <option value="rock">いわ</option>
+                <option value="ghost">ゴースト</option>
+                <option value="dragon">ドラゴン</option>
+                <option value="dark">あく</option>
+                <option value="steel">はがね</option>
+                <option value="fairy">フェアリー</option>
+            </select>
+            </br>
+            <button class=button is-primary type="submit">Submit</button>
+        </form>
+    </section>
 </div>
 `;
 
@@ -151,12 +158,14 @@ const compatibility  = {
 };
 
 var msg = {normal:"通常の効果",nothing:"効果がない",good:"効果はばつぐん",bad:"効果はいまひとつ"};
+//相性によって文字の色を変える
 var style = {normal:"\"font-size:24px;color: #007800;\"",
             nothing:"\"font-size:24px;color: #000000;\"",
             good:"\"font-size:24px;color: #ff2400;\"",
             bad:"\"font-size:24px;color: #0078ff;\""
 };
 
+//相性によって与えるダメージが何倍か
 function damageMagnification(move_type,pokemon_type1,pokemon_type2) {
     var magnification = compatibility[move_type][pokemon_type1];
     if (pokemon_type2 != "none" && pokemon_type1 != pokemon_type2) {
@@ -219,9 +228,9 @@ async function handler(req) {
         case "POST": {
             const body = await req.formData();
 
-            const move_type = body.get("move_type");
-            const pokemon_type1 = body.get("pokemon_type1");
-            const pokemon_type2 = body.get("pokemon_type2");
+            const move_type = body.get("move_type"); //技のタイプ
+            const pokemon_type1 = body.get("pokemon_type1"); //防御側のポケモンのタイプ
+            const pokemon_type2 = body.get("pokemon_type2"); //防御側のポケモンのタイプ
 
             var damage = damageMagnification(move_type,pokemon_type1,pokemon_type2) 
             var result = `<div class="parent"><p style=${style[damage[1]]}>ダメージ${damage[0]}倍</p><p style=${style[damage[1]]}>${msg[damage[1]]}</p></div>`;
