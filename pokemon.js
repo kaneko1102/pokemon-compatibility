@@ -157,9 +157,9 @@ const compatibility  = {
             }
 };
 
-var msg = { normal: "通常の効果", nothing: "効果がない", good: "効果はばつぐん", bad: "効果はいまひとつ" };
+var effect_msg = { normal: "通常の効果", nothing: "効果がない", good: "効果はばつぐん", bad: "効果はいまひとつ" };
 //相性によって文字の色を変える
-var style = { normal:  "\"font-size:24px;color: #007800;\"",
+var effect_style = { normal:  "\"font-size:24px;color: #007800;\"",
               nothing: "\"font-size:24px;color: #000000;\"",
               good:    "\"font-size:24px;color: #ff2400;\"",
               bad:     "\"font-size:24px;color: #0078ff;\""
@@ -171,20 +171,20 @@ function damageMagnification(move_type, pokemon_type1, pokemon_type2) {
     if (pokemon_type2 != "none" && pokemon_type1 != pokemon_type2) {
         magnification *= compatibility[move_type][pokemon_type2];
     }
-    var _msg;
+    var effect;
     if (magnification == 1) {
-        _msg = "normal";
+        effect = "normal";
     }
     else if (magnification == 0) {
-        _msg = "nothing";
+        effect = "nothing";
     }
     else if (magnification > 1) {
-        _msg = "good";
+        effect = "good";
     }
     else if (magnification < 1 && magnification > 0) {
-        _msg = "bad";
+        effect = "bad";
     }
-    return [magnification, _msg];
+    return [magnification, effect];
 }
 
 function assertDamage(input, expected) {
@@ -233,7 +233,7 @@ async function handler(req) {
             const pokemon_type2 = body.get("pokemon_type2"); //防御側のポケモンのタイプ
 
             var damage = damageMagnification(move_type,pokemon_type1,pokemon_type2) 
-            var result = `<div class="parent"><p style=${style[damage[1]]}>ダメージ${damage[0]}倍</p><p style=${style[damage[1]]}>${msg[damage[1]]}</p></div>`;
+            var result = `<div class="parent"><p style=${effect_style[damage[1]]}>ダメージ${damage[0]}倍</p><p style=${effect_style[damage[1]]}>${effect_msg[damage[1]]}</p></div>`;
             return new Response(html+result, {
                 headers: { "content-type": "text/html; charset=utf-8" },
             });
