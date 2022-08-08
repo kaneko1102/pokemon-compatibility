@@ -160,9 +160,9 @@ const compatibility  = {
 var effect_msg = { normal: "通常の効果", nothing: "効果がない", good: "効果はばつぐん", bad: "効果はいまひとつ" };
 //相性によって文字の色を変える
 var effect_style = { normal:  "\"font-size:24px;color: #007800;\"",
-              nothing: "\"font-size:24px;color: #000000;\"",
-              good:    "\"font-size:24px;color: #ff2400;\"",
-              bad:     "\"font-size:24px;color: #0078ff;\""
+                     nothing: "\"font-size:24px;color: #000000;\"",
+                     good:    "\"font-size:24px;color: #ff2400;\"",
+                     bad:     "\"font-size:24px;color: #0078ff;\""
 };
 
 //相性によって与えるダメージが何倍か
