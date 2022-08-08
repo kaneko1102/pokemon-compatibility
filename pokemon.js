@@ -168,9 +168,12 @@ var effect_style = { normal:  "\"font-size:24px;color: #007800;\"",
 //相性によって与えるダメージが何倍か
 function damageMagnification(move_type, pokemon_type1, pokemon_type2) {
     var magnification = compatibility[move_type][pokemon_type1];
+
+    // ポケモンが2つのタイプをもつとき
     if (pokemon_type2 != "none" && pokemon_type1 != pokemon_type2) {
         magnification *= compatibility[move_type][pokemon_type2];
     }
+    
     var effect;
     if (magnification == 1) {
         effect = "normal";
