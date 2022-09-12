@@ -187,38 +187,56 @@ function damageMagnification(move_type, pokemon_type1, pokemon_type2) {
     else if (magnification < 1 && magnification > 0) {
         effect = "bad";
     }
-    return [magnification, effect];
+    return {"magnification": magnification, "effect": effect};
 }
 
-function assertDamage(input, expected) {
-    var actual = damageMagnification(input[0], input[1], input[2]);
-    if (actual[0] != expected[0] || actual[1] != expected[1]) {
-        console.log(`\x1b[31m${input} => ${expected} expected, but got ${actual}\x1b[0m`);
-        Deno.exit(1);
+
+// ユニットテスト
+Deno.test("damage test",()=> {
+    let input = [{move_type: "fire", pokemon_type1: "grass", pokemon_type2: "none"},
+                 {move_type: "fire", pokemon_type1: "grass", pokemon_type2: "ice"},
+                 {move_type: "normal", pokemon_type1: "ghost", pokemon_type2: "none"},
+                 {move_type: "normal", pokemon_type1: "ghost", pokemon_type2: "fire"},
+                 {move_type: "normal", pokemon_type1: "normal", pokemon_type2: "flying"},
+                 {move_type: "electric", pokemon_type1: "water", pokemon_type2: "flying"},
+                 {move_type: "ice", pokemon_type1: "grass", pokemon_type2: "ice"},
+                 {move_type: "fighting", pokemon_type1: "ghost", pokemon_type2: "dark"},
+                 {move_type: "fire", pokemon_type1: "water", pokemon_type2: "none"},
+                 {move_type: "fire", pokemon_type1: "water", pokemon_type2: "electric"},
+                 {move_type: "fire", pokemon_type1: "fire", pokemon_type2: "rock"},
+                 {move_type: "dragon", pokemon_type1: "dragon", pokemon_type2: "none"},
+                 {move_type: "ghost", pokemon_type1: "ghost", pokemon_type2: "none"},
+                 {move_type: "ghost", pokemon_type1: "ghost", pokemon_type2: "dark"},
+                 {move_type: "fire", pokemon_type1: "grass", pokemon_type2: "grass"},
+                 {move_type: "fire", pokemon_type1: "water", pokemon_type2: "water"},
+                ];
+
+    let expected = [{magnification: 2, effect: "good"},
+                    {magnification: 4, effect: "good"},
+                    {magnification: 0, effect: "nothing"},
+                    {magnification: 0, effect: "nothing"},
+                    {magnification: 1, effect: "normal"},
+                    {magnification: 4, effect: "good"},
+                    {magnification: 1, effect: "normal"},
+                    {magnification: 0, effect: "nothing"},
+                    {magnification: 0.5, effect: "bad"},
+                    {magnification: 0.5, effect: "bad"},
+                    {magnification: 0.25, effect: "bad"},
+                    {magnification: 2, effect: "good"},
+                    {magnification: 2, effect: "good"},
+                    {magnification: 1, effect: "normal"},
+                    {magnification: 2, effect: "good"},
+                    {magnification: 0.5, effect: "bad"},
+                  ];
+
+    
+    for (let i = 0; i < input.length; i++) {
+        var actual = damageMagnification(input[i]["move_type"], input[i]["pokemon_type1"], input[i]["pokemon_type2"]);
+        if (actual["magnification"] != expected[i]["magnification"] || actual["effect"] != expected[i]["effect"]) {
+            throw Error(`${input[i]} => ${expected[i]} expected, but got ${actual}`);
+        }
     }
-}
-
-function unitTest() {
-    assertDamage(["fire","grass","none"], [2,"good"]);
-    assertDamage(["fire","grass","ice"], [4,"good"]);
-    assertDamage(["normal","ghost","none"], [0,"nothing"]);
-    assertDamage(["normal","ghost","fire"], [0,"nothing"]);
-    assertDamage(["normal","normal","flying"], [1,"normal"]);
-    assertDamage(["electric","water","flying"], [4,"good"]);
-    assertDamage(["ice","grass","ice"], [1,"normal"]);
-    assertDamage(["fighting","ghost","dark"], [0,"nothing"]);
-    assertDamage(["fire","water","none"], [0.5,"bad"]);
-    assertDamage(["fire","water","electric"], [0.5,"bad"]);
-    assertDamage(["fire","fire","rock"], [0.25,"bad"]);
-    assertDamage(["dragon","dragon","none"], [2,"good"]);
-    assertDamage(["ghost","ghost","none"], [2,"good"]);
-    assertDamage(["ghost","ghost","dark"], [1,"normal"]);
-
-    assertDamage(["fire","grass","grass"], [2,"good"]);
-    assertDamage(["fire","water","water"], [0.5,"bad"]);
-}
-
-unitTest();
+});
 
 async function handler(req) {
     switch (req.method) {
@@ -236,7 +254,7 @@ async function handler(req) {
             const pokemon_type2 = body.get("pokemon_type2"); //防御側のポケモンのタイプ
 
             var damage = damageMagnification(move_type,pokemon_type1,pokemon_type2) 
-            var result = `<div class="parent"><p style=${effect_style[damage[1]]}>ダメージ${damage[0]}倍</p><p style=${effect_style[damage[1]]}>${effect_msg[damage[1]]}</p></div>`;
+            var result = `<div class="parent"><p style=${effect_style[damage["style"]]}>ダメージ${damage["magnification"]}倍</p><p style=${effect_style[damage["style"]]}>${effect_msg[damage["style"]]}</p></div>`;
             return new Response(html+result, {
                 headers: { "content-type": "text/html; charset=utf-8" },
             });
