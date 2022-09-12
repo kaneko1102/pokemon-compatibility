@@ -1,3 +1,12 @@
+/*
+pokemon.js
+
+Copyright (c) 2022 Takuya Kaneko
+
+This software is released under the MIT License.
+http://opensource.org/licenses/mit-license.php
+*/
+
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 
 const html = `

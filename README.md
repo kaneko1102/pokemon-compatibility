@@ -16,4 +16,5 @@ deno run -A pokemon.js
 ## 参考ページ
 [デザインの参考](https://github.com/yoidea/one-click)
 
-
+## LICENSE
+This software is released under the MIT License, see LICENSE file
