@@ -263,7 +263,7 @@ async function handler(req) {
             const pokemon_type2 = body.get("pokemon_type2"); //防御側のポケモンのタイプ
 
             var damage = damageMagnification(move_type,pokemon_type1,pokemon_type2) 
-            var result = `<div class="parent"><p style=${effect_style[damage["style"]]}>ダメージ${damage["magnification"]}倍</p><p style=${effect_style[damage["style"]]}>${effect_msg[damage["style"]]}</p></div>`;
+            var result = `<div class="parent"><p style=${effect_style[damage["effect"]]}>ダメージ${damage["magnification"]}倍</p><p style=${effect_style[damage["effect"]]}>${effect_msg[damage["effect"]]}</p></div>`;
             return new Response(html+result, {
                 headers: { "content-type": "text/html; charset=utf-8" },
             });
